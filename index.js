@@ -134,7 +134,7 @@ app.post('/donor/signup',function(req,res){
     //var iAddress=req.body.address;
     //var iSoldBy=req.body.soldby;
     //var iSoldByName=req.body.vendorname;
-    if ((iName)&&(iEmail)&&(iPassword)&&(iHypertrackId)) {
+    if (true) {
         var user = {BankName:ibankname,Name: iName, Email: iEmail, Password:iPassword,HypertrackId:iHypertrackId, BloodGroup:ibloodgroup,Complexion:icomplexion,Occupation:ioccupation};
         var check = {Name: iName, Email: iEmail, Password: iPassword};
         var options = {upsert: true};
