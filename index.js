@@ -119,6 +119,59 @@ app.post('/user/signup',function(req,res){
     }
 });
 
+app.post('/donor/signup',function(req,res){
+    var iName=req.body.name;
+    var iEmail=req.body.email;
+    var iPassword=req.body.password;
+    var iHypertrackId=req.body.hypertrackid;
+    var icomplexion=req.body.complexion;
+    var ioccupation=req.body.occupation;
+    var ibloodgroup=req.body.bloodgroup;
+    var ibankname=req.body.bankname;
+
+    //var iLat=req.body.lat;
+    //var iLong=req.body.long;
+    //var iAddress=req.body.address;
+    //var iSoldBy=req.body.soldby;
+    //var iSoldByName=req.body.vendorname;
+    if ((iName)&&(iEmail)&&(iPassword)&&(iHypertrackId)) {
+        var user = {BankName:ibankname,Name: iName, Email: iEmail, Password:iPassword,HypertrackId:iHypertrackId, BloodGroup:ibloodgroup,Complexion:icomplexion,Occupation:ioccupation};
+        var check = {Name: iName, Email: iEmail, Password: iPassword};
+        var options = {upsert: true};
+        Model.Donor.update(check, user, options, function (error, info) {
+            if (info) {
+                res.send("[{failed:0,success:1}]");
+                console.log(info);
+            } else {
+                res.send("[{failed:1,success:0}]");
+                console.log("Error Adding Item:" + error);
+            }
+        });
+    }else{
+        util.sendInvalidDetails(res);
+    }
+});
+
+
+
+app.post('/user/recommended',function(req,res){
+    var icomplexion=req.body.complexion;
+    var ibloodgroup=req.body.bloodgroup;
+    var ioccupation=req.body.occupation;
+     var check={
+        BloodGroup:ibloodgroup,
+        Occupation:ioccupation,
+        Complexion:icomplexion,
+    };
+    Model.Donor.find(check,function(error,info){
+        if (info && info.length>0) {
+            res.send("[{failed:0,success:1},{data:[" + info + "]}]");
+        } else {
+            res.send("[{failed:1,success:0},{data:[]}]");
+            console.log("Error getting an item:" + error);
+        }
+    })
+});
 
 app.get('/*', function (req, res) {
     res.send("{error:'wrong endpoint'}");
