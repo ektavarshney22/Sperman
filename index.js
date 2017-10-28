@@ -19,12 +19,15 @@ app.use(bodyParser.json());
 app.post('/user/login', function (req, res) {
     var email=req.body.email;
     var password=req.body.password;
+    var lat=req.body.lat;
+    var long=req.body.long;
     var check={
         Email:email,
         Password:password
     };
     Model.Customer.find(check,function(error,info){
-        if (info) {
+        if (info && info.length>0) {
+            
             res.send("[{failed:0,success:1},{data:[" + info + "]}]");
         } else {
             res.send("[{failed:1,success:0},{data:[]}]");
@@ -84,7 +87,7 @@ app.post('/user/signup',function(req,res){
         var user = {Name: iName, Email: iEmail, Location: {long: iLong, lat: iLat, Address:iAddress}, Password:iPassword,HypertrackId:iHypertrackId};
         var check = {Name: iName, Email: iEmail, Password: iPassword};
         var options = {upsert: true};
-        Model.Customer.update(check, item, options, function (error, info) {
+        Model.Customer.update(check, user, options, function (error, info) {
             if (info) {
                 res.send("[{failed:0,success:1}]");
                 console.log(info);
