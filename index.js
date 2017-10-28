@@ -9,12 +9,7 @@ var db = mongoose.connection;
 db.once('open', function () {
     console.log("connected to mongo DB");
 });
-/*************************/
-/*var hyperHelper=require('./HypertrackHelper');
-hyperHelper.assignAction('24777e89-05e9-4c2e-ab6a-c5dc6eb18e45','e7de8159-6ff4-48c7-898a-d4ef88618b91');*/
 
-
-/************Code********/
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
