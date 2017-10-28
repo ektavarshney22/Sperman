@@ -19,15 +19,33 @@ app.use(bodyParser.json());
 app.post('/user/login', function (req, res) {
     var email=req.body.email;
     var password=req.body.password;
-    var lat=req.body.lat;
-    var long=req.body.long;
+    //var lat=req.body.lat;
+    //var long=req.body.long;
+    var hypertrackid=req.body.hypertrackid
+    console.log(email)
+    console.log(password)
+    console.log(hypertrackid)
     var check={
         Email:email,
         Password:password
     };
     Model.Customer.find(check,function(error,info){
         if (info && info.length>0) {
-            
+            if(hypertrackid){
+        var user = {HypertrackId:hypertrackid};
+        
+        var options = {upsert: true};
+        Model.Customer.update(check, user, options, function (error, info) {
+            if (info) {
+          
+                console.log(info);
+            } else {
+          
+                console.log("Error Adding Item:" + error);
+            }
+        });
+    
+            }
             res.send("[{failed:0,success:1},{data:[" + info + "]}]");
         } else {
             res.send("[{failed:1,success:0},{data:[]}]");
