@@ -1,5 +1,5 @@
 module.exports={
 	modelBank: 'Bank',
-	modelCustomer: 'Customer',
+	modelCustomers: 'Customer',
 	modelDonor: 'Donor'
 };
