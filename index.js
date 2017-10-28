@@ -173,6 +173,36 @@ app.post('/user/recommended',function(req,res){
     })
 });
 
+
+app.post('/bank/signup',function(req,res){
+    var iName=req.body.name;
+    var iEmail=req.body.email;
+    var iPassword=req.body.password;
+    var iHypertrackId=req.body.hypertrackid;
+    var iLat=req.body.lat;
+    var iLong=req.body.long;
+    var iAddress=req.body.address;
+    //var iSoldBy=req.body.soldby;
+    //var iSoldByName=req.body.vendorname;
+    if ((iName)&&(iEmail)&&(iPassword)&&(iHypertrackId)&&(iLat)&&(iLong)) {
+        var user = {Name: iName, Email: iEmail, Location: {long: iLong, lat: iLat, Address:iAddress}, Password:iPassword,HypertrackId:iHypertrackId};
+        var check = {Name: iName, Email: iEmail, Password: iPassword};
+        var options = {upsert: true};
+        Model.Bank.update(check, user, options, function (error, info) {
+            if (info) {
+                res.send("[{failed:0,success:1}]");
+                console.log(info);
+            } else {
+                res.send("[{failed:1,success:0}]");
+                console.log("Error Adding Item:" + error);
+            }
+        });
+    }else{
+        util.sendInvalidDetails(res);
+    }
+});
+
+
 app.get('/*', function (req, res) {
     res.send("{error:'wrong endpoint'}");
 });
