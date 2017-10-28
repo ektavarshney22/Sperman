@@ -28,7 +28,7 @@ module.exports = {
             //FirebaseToken: String,
             //Occupied:Number
         }
-    )
+    ),
 
     donorSchema: mongoose.Schema(
         {
